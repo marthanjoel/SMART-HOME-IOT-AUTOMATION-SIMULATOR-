@@ -1,17 +1,19 @@
-import Device
+import Device, data_generate
 
 import tkinter as tk
 from tkinter import ttk, Text
 from tkinter.scrolledtext import ScrolledText
-
 from ctypes import windll
 windll.shcore.SetProcessDpiAwareness(1)
 
+import threading
+
 class Simulator(tk.Tk):
-    def __init__(self, automation_system):
+    def __init__(self, automation_system, generator):
         super().__init__()
         self.automation_system = automation_system
         self.automation_toggle = False
+        self.generator = generator
         self.create_gui()
 
     def create_gui(self):
@@ -35,12 +37,7 @@ class Simulator(tk.Tk):
         )
         self.automation_label.grid()
         
-        # st = ScrolledText(self.body, width=60, height=30)
-        # st.grid(fill=tk.BOTH, side=tk.LEFT, expand=True)
-        # for device in self.devices:
-        #     st.insert(device.device_id + ': ' + device.__class__.__name__+ 'Status' + device.status)
-        
-        self.text = Text(self.body, height=8)
+        self.text = Text(self.body, height=5)
         self.text.grid()
         for device in self.automation_system.devices[::-1]:
             self.text.insert('1.0',device.device_id + ': ' + device.__class__.__name__+ ' Status: ' + str(device.status)+'\n')
@@ -94,9 +91,14 @@ class Simulator(tk.Tk):
                 self.body, 
                 text='Brightness events'
         )
+        self.brightness_real_time = Text(self.body, height=9)
+        
+
         self.automation_rule.grid()
         self.brightness_label.grid()
         self.automation_label.grid()
+        self.brightness_real_time.grid()
+        
     
     def indic(self, device, slider=None, curr_val=None):
         cls_name = device.__class__.__name__
@@ -104,7 +106,7 @@ class Simulator(tk.Tk):
             return device.device_id + ': ' + str(slider.get()) + '%' if slider else device.device_id + ': ' + curr_val + '%'
         elif cls_name == 'Thermostat':
             return device.device_id + ': ' + str(slider.get()) + '%' if slider else device.device_id + ': ' + curr_val + '%'
-        return device.device_id + ' - Motion: ' + str(slider.get()) 
+        return device.device_id + ' - Motion: ' + str(device.status)
 
     def toggle_device(self, device):
         device.status = not device.status
@@ -135,23 +137,28 @@ class Simulator(tk.Tk):
                 # variable=current_value
             )
         else: 
-           return tk.Scale(
+           return tk.Button(
                 self.body,
-                from_=-20,
-                to=30,
-                orient='horizontal',  # vertical
-                # command=slider_changed,
-                # variable=current_value
+                text='Randomly Detect Motion',
+                command = self.random_detect()
             )
+
+    def random_detect(self):
+        pass
 
     def automation_check(self):
         # print('clicked')
         if self.automation_toggle:
             self.automation_toggle = False
-            # Turn off data generator thread
+            self.set_state(self.body, 'normal')
+            if self.generator.running:
+                generator.stop()
         else:
             self.automation_toggle = True
             # Start the data generator thread
+            threading.Thread(target=generator.start, args=(self.brightness_real_time,)).start()
+            self.set_state(self.body, 'disabled', [self.automation_button.winfo_name(), self.brightness_real_time.winfo_name()])
+
         self.automation_label.config(text='Automation Status: ' + ('ON' if self.automation_toggle else 'OFF'))
 
     def wording(self, device):
@@ -173,17 +180,16 @@ class Simulator(tk.Tk):
         elif cls_name == 'Thermostat':
             device.set_temperature(current_value)
         
-        # self.slider_value.configure(text = current_value)
-
-    # def indic2(self, device, current_val):
-    #     cls_name= device.__class__.__name__
-    #     if cls_name == 'SmartLight':
-    #         return device.device_id + ': ' + current_val + '%'
-    #     elif cls_name == 'Thermostat':
-    #         return device.device_id + ': ' + current_val + 'C'
-    #     return device.device_id + ' - Motion: ' + current_val 
-
-    
+    def set_state(self, parent, state='disabled', exclude_names=[]):
+        for child in parent.winfo_children():
+            if child.winfo_name() not in exclude_names:
+                if child.winfo_children():
+                    set_state(child, state=state, exclude_names=exclude_names)
+                else:
+                    try:
+                        child.configure(state=state)
+                    except tk.TclError:
+                        pass
 
 if __name__ == '__main__':
     living_room_light= Device.SmartLight('Living Room Light')
@@ -194,5 +200,7 @@ if __name__ == '__main__':
     for device in undiscovered_devices:
         if automation_system.discover_devices:
             automation_system.add_devices(device)
-    gui = Simulator(automation_system)
+    generator = data_generate.DataGenerator()
+    gui = Simulator(automation_system, generator)
+    
     gui.mainloop()
