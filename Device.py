@@ -1,10 +1,10 @@
 import random
 
 class Device:
-    def __init__(self, device_id, status = False):
-        self.device_id=device_id
+    def __init__(self, device_id_, status = False):
+        self.device_id=device_id_
         self.status=status
-    
+
     def turn_on(self):
         self.status=True
     
@@ -31,29 +31,42 @@ class Thermostat(Device):
         self.temperature = temperature    
 
 class SecurityCamera(Device):
-    def __init__(self, device_id, motion_detected = False):
+    def __init__(self, device_id, security_status = False):
         super().__init__(device_id)
-        self.motion_detected = motion_detected
+        self.security_status = security_status
+
     
-    def set_motion_detected(self, motion_detected):
-        self.motion_detected = motion_detected  
+    def set_security_status(self, security_status):
+        self.security_status = security_status 
+
+    # def set_motion_detected(self, motion_detected):
+    #     self.motion_detected = motion_detected  
 
 class AutomationSystem:
     def __init__(self):
         self.devices=[]
-    def add_devices(self, device):
+        self.motion_detected = False
+    def add_device(self, device):
         self.devices.append(device)
-    def discover_devices(self, devices):
-        for device in devices:
-            if device.isinstance(Device):
-                print("Discovered a new device: ", device.device_id)
-                # self.add_devices(device)
+    def discover_devices(self, device):
+        if isinstance(device, Device):
+            print("Discovered a new device: ", device.device_id)
+            return True
+            # self.add_device(device)
     
-    def execute_tasks(self):
+    def automatic_light_on(self):
         for device in self.devices:
-            if isinstance(device, SmartLight):
-                device.set_brightness(random.randint(0, 100))
-            elif isinstance(device, Thermostat):
-                device.set_temperature(random.randint(15, 30))
-            elif isinstance(device, SecurityCamera):
-                device.set_security_status(bool(random.getrandbits(1)))
+            if isinstance(device, SecurityCamera):
+                for each in self.devices:
+                    if isinstance(each, SmartLight) and each.status and int(each.brightness) <=20:
+                        each.set_brightness(70)
+
+
+    # def execute_tasks(self):
+    #     for device in self.devices:
+    #         if isinstance(device, SmartLight):
+    #             device.set_brightness(random.randint(0, 100))
+    #         elif isinstance(device, Thermostat):
+    #             device.set_temperature(random.randint(15, 30))
+    #         elif isinstance(device, SecurityCamera):
+    #             device.set_security_status(bool(random.getrandbits(1)))
