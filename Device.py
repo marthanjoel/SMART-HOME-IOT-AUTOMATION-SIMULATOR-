@@ -34,13 +34,10 @@ class SecurityCamera(Device):
     def __init__(self, device_id, security_status = False):
         super().__init__(device_id)
         self.security_status = security_status
-
-    
+   
     def set_security_status(self, security_status):
         self.security_status = security_status 
-
-    # def set_motion_detected(self, motion_detected):
-    #     self.motion_detected = motion_detected  
+  
 
 class AutomationSystem:
     def __init__(self):
@@ -60,13 +57,3 @@ class AutomationSystem:
                 for each in self.devices:
                     if isinstance(each, SmartLight) and each.status and int(each.brightness) <=20:
                         each.set_brightness(70)
-
-
-    # def execute_tasks(self):
-    #     for device in self.devices:
-    #         if isinstance(device, SmartLight):
-    #             device.set_brightness(random.randint(0, 100))
-    #         elif isinstance(device, Thermostat):
-    #             device.set_temperature(random.randint(15, 30))
-    #         elif isinstance(device, SecurityCamera):
-    #             device.set_security_status(bool(random.getrandbits(1)))

@@ -8,7 +8,16 @@ windll.shcore.SetProcessDpiAwareness(1)
 import threading
 
 class Simulator(tk.Tk):
+    """ A class representing a smart home simulator GUI. """
+    
     def __init__(self, automation_system, generator):
+        """
+        Initializes a Simulator object.
+
+        Args:
+        - automation_system: an instance of AutomationSystem class representing the smart home automation system
+        - generator: an instance of Generator class representing the brightness generator for the smart lights
+        """
         super().__init__()
         self.automation_system = automation_system
         self.automation_toggle = False
@@ -16,6 +25,9 @@ class Simulator(tk.Tk):
         self.create_gui()
 
     def create_gui(self):
+        """
+        Creates the GUI for the smart home simulator and connect the widgets with its functionalities.
+        """
         self.title('Smart Home Simulator')
         self.geometry('800x900')
         self.resizable(0,0)
@@ -40,6 +52,7 @@ class Simulator(tk.Tk):
             self.text.insert('1.0',device.device_id + ': ' + device.__class__.__name__+ ' Status: ' + ('ON' if device.status else 'OFF')+'\n')
         self.labels=[]
         self.sliders=[]
+        self.buttons=[]
         for index, device in enumerate(self.automation_system.devices):
             self.space_label = ttk.Label(
                 self.body, 
@@ -61,6 +74,7 @@ class Simulator(tk.Tk):
                 text='TOGGLE ON/OFF',
                 command = lambda device= device: self.toggle_device(device)
             )
+            self.buttons.append(self.button)
             self.indicator = tk.Label(
                 self.body,
                 text = self.display_device_curr_readings(device, slider = self.slider)
@@ -86,6 +100,18 @@ class Simulator(tk.Tk):
         
     
     def display_device_curr_readings(self, device, slider=None, curr_val=None):
+        """
+        Displays the current readings of a device.
+
+        Args:
+        - device: a Device object representing the device to display the readings for
+        - slider: a Scale object representing the slider for the device (optional)
+        - curr_val: a string representing the current value for the device (optional)
+
+        Returns:
+        - A string representing the current readings of the device.
+        """
+
         cls_name = device.__class__.__name__
         if cls_name == 'SmartLight':
             return device.device_id + ': ' + str(slider.get()) + '%' if slider else device.device_id + ': ' + curr_val + '%'
@@ -94,6 +120,12 @@ class Simulator(tk.Tk):
         return device.device_id + ' - Motion: ' + ('YES' if self.automation_system.motion_detected else 'NO')
 
     def toggle_device(self, device):
+        """
+        Toggles the status of a device.
+
+        Args:
+        - device: a Device object representing the device to toggle.
+        """
         device.status = not device.status
         self.turn_on_lights_automatically_for_toggle(device)
         self.text.delete('1.0', tk.END)
@@ -101,6 +133,15 @@ class Simulator(tk.Tk):
             self.text.insert('1.0', device.device_id + ': ' + device.__class__.__name__+ ' Status: ' + ('ON' if device.status else 'OFF')+'\n')
 
     def slider_decider(self, device):
+        """
+        Decides which type of slider to create for a device.
+
+        Args:
+        - device: a Device object representing the device to create a slider for.
+
+        Returns:
+        - A Scale object representing the slider for the device.
+        """
         cls_name= device.__class__.__name__
         if cls_name == 'SmartLight':
             return tk.Scale(
@@ -108,9 +149,7 @@ class Simulator(tk.Tk):
                 from_=0,
                 to=100,
                 orient='horizontal', 
-                # command=lambda val: self.light_slider_changed(device, current_value),
                 command= lambda v, device=device: self.slider_changed(device, v),
-                # variable=current_value
             )
         elif cls_name == 'Thermostat':
             return tk.Scale(
@@ -119,7 +158,6 @@ class Simulator(tk.Tk):
                 to=30,
                 orient='horizontal',
                 command=lambda v, device=device: self.slider_changed(device, v),
-                # variable=current_value
             )
         else: 
            return tk.Button(
@@ -129,15 +167,24 @@ class Simulator(tk.Tk):
             )
 
     def turn_on_lights_automatically(self, device):
+        """
+        Turns on the lights automatically when motion is detected.
+
+        Args:
+        - device: a Device object representing the device to turn on the lights for.
+        """
         self.automation_system.motion_detected = not self.automation_system.motion_detected
         index = self.automation_system.devices.index(device)
         if not self.automation_system.motion_detected:
             self.labels[index].config(text=device.device_id + ' - Motion: ' + ('YES' if self.automation_system.motion_detected else 'NO'))
-        else:
+        elif self.automation_system.motion_detected:
             self.automatic_light_updater()
             self.labels[index].config(text=device.device_id + ' - Motion: ' + ('YES' if self.automation_system.motion_detected else 'NO'))
 
     def automatic_light_updater(self):
+        """
+        Updates the brightness of the smart lights automatically.
+        """
         self.automation_system.automatic_light_on()
         for index, each in enumerate(self.automation_system.devices):
             if isinstance(each, Device.SmartLight):
@@ -145,16 +192,32 @@ class Simulator(tk.Tk):
                 self.sliders[index].set(each.brightness)
 
     def turn_on_lights_automatically_for_toggle(self, device):
+        """
+        Turns on the lights automatically when a device is toggled.
+
+        Args:
+        - device: a Device object representing the device that was toggled.
+        """
         if self.automation_system.motion_detected:
             self.automatic_light_updater()
 
     def slider_enable_disable(self, device, index):
+        """
+        Enables or disables the slider for a device based on its status.
+
+        Args:
+        - device: a Device object representing the device to enable or disable the slider for.
+        - index: an integer representing the index of the device in the list of devices.
+        """
         if not device.status:
             self.sliders[index].config(state=tk.DISABLED)
         else:
             self.slider[index].config(state=tk.NORMAL)
 
     def automation_check(self):
+        """
+        Checks the status of the automation system and starts or stops the brightness generator accordingly.
+        """
         if self.automation_toggle:
             self.automation_toggle = False
             self.set_state(self.body, 'normal')
@@ -163,12 +226,21 @@ class Simulator(tk.Tk):
         else:
             self.automation_toggle = True
 
-            threading.Thread(target=generator.start, args=(self.brightness_real_time,)).start()
-            self.set_state(self.body, 'disabled', [self.automation_button.winfo_name(), self.brightness_real_time.winfo_name()])
+            threading.Thread(target=generator.start, args=(self.brightness_real_time, self.sliders[0],)).start()
+            self.set_state(self.body, 'disabled', [self.automation_button.winfo_name(), self.brightness_real_time.winfo_name(), self.sliders[0].winfo_name()])
 
         self.automation_label.config(text='Automation Status: ' + ('ON' if self.automation_toggle else 'OFF'))
 
     def wording(self, device):
+        """
+        Returns the wording for a device label.
+
+        Args:
+        - device: a Device object representing the device to get the wording for.
+
+        Returns:
+        - A string representing the wording for the device label.
+        """
         cls_name= device.__class__.__name__
         if cls_name == 'SmartLight':
             return 'Brightness'
@@ -178,6 +250,9 @@ class Simulator(tk.Tk):
             return 'Motion Detection'
 
     def slider_changed(self, device, current_value):
+        """
+        Sets device's brightness with given value.
+        """
         index = self.automation_system.devices.index(device)
         self.labels[index].config(text = self.display_device_curr_readings(device, curr_val=current_value))
         cls_name= device.__class__.__name__
@@ -187,6 +262,9 @@ class Simulator(tk.Tk):
             device.set_temperature(current_value)
         
     def set_state(self, parent, state='disabled', exclude_names=[]):
+        """
+        Sets a state for every widgets excluding widgets in exclude_names list.
+        """
         for child in parent.winfo_children():
             if child.winfo_name() not in exclude_names:
                 if child.winfo_children():

@@ -1,12 +1,12 @@
 import unittest
 from tkinter import *
-import test_tkinter, Device
+import Simulator, Device, data_generate
 
 
 class TestSimulator(unittest.TestCase):
     def setUp(self):
-        self.automation_system = test_tkinter.automation_system
-        self.generator = test_tkinter.data_generate
+        self.automation_system = Device.AutomationSystem()
+        self.generator = data_generate.DataGenerator()
         self.living_room_light= Device.SmartLight('Living Room Light')
         self.living_room_thermostat= Device.Thermostat('Living Room Thermostat')
         self.front_door_camera= Device.SecurityCamera('Front door camera')
@@ -17,30 +17,72 @@ class TestSimulator(unittest.TestCase):
             if self.automation_system.discover_devices(device):
                 self.automation_system.add_device(device)
 
-        self.simulator = Simulator(automation_system, generator)
+        self.simulator = Simulator.Simulator(self.automation_system, self.generator)
 
+    def test_initial_state_of_devices(self):
+        self.assertEqual(self.living_room_light.status, False)
+        self.assertEqual(self.living_room_thermostat.status, False)
+        self.assertEqual(self.front_door_camera.status, False)
+        self.assertEqual(self.living_room_light.brightness, 0)
+        self.assertEqual(self.living_room_thermostat.temperature, 0)
+        self.assertEqual(self.front_door_camera.security_status, False)
+        self.assertEqual(self.automation_system.motion_detected, False)
+    
+    def test_automation_system_setup(self):
+        self.assertEqual(self.simulator.automation_system.motion_detected, False)
+        self.assertEqual(len(self.simulator.automation_system.devices), 3)
+        self.assertEqual(self.simulator.automation_system.devices[0].__class__.__name__, 'SmartLight')
+        self.assertEqual(self.simulator.automation_system.devices[1].__class__.__name__, 'Thermostat')
+        self.assertEqual(self.simulator.automation_system.devices[2].__class__.__name__, 'SecurityCamera')
 
-    def test_toggle_device(self):
-        self.simulator.toggle_device(living_room_light)
-        self.assertEqual(living_room_light.status, True)
+    def test_living_room_light_status_button(self):
+        self.simulator.buttons[0].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[0].status, True)
+        self.simulator.buttons[0].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[0].status, False)
+        
 
-    def test_slider_decider(self):
-        self.assertIsInstance(self.simulator.slider_decider(living_room_light), Scale)
+    def test_living_room_thermostat_status_button(self):
+        self.simulator.buttons[1].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[1].status, True)
+        self.simulator.buttons[1].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[1].status, False)
+        
 
-    def test_wording(self):
-        self.assertEqual(self.simulator.wording(living_room_light), 'Brightness')
+    def test_front_door_camera_status_button(self):
+        self.simulator.buttons[2].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[2].status, True)
+        self.simulator.buttons[2].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[2].status, False)
+        
 
-    def test_display_device_curr_readings(self):
-        self.assertEqual(self.simulator.display_device_curr_readings(living_room_light), 'Living Room Light: 0%')
+    def test_automation_toggle_button(self):
+        self.simulator.automation_button.invoke()
+        self.assertEqual(self.simulator.automation_toggle, True)
+        self.simulator.automation_button.invoke()
+        self.assertEqual(self.simulator.automation_toggle, False)
+        
+    def test_living_room_light_slider(self):
+        self.simulator.sliders[0].set(0)
+        self.assertEqual(self.simulator.automation_system.devices[0].brightness, 0)
+        self.simulator.sliders[0].set(20)
+        self.assertEqual(self.simulator.sliders[0].get(), 20)
 
-    def test_slider_changed(self):
-        self.simulator.slider_changed(living_room_light, 50)
-        self.assertEqual(self.simulator.display_device_curr_readings(living_room_light), 'Living Room Light: 50%')
-
-    def test_set_state(self):
-        self.simulator.set_state(self.simulator.body, state='disabled')
-        self.assertEqual(self.simulator.body['state'], 'disabled')
-
-    if __name__ == '__main__':
-        unittest.main(argv=[''], exit=False)
-    self.brightness_real_time = Text(self.body, height=9)
+    def test_living_room_thermostat_slider(self):
+        self.simulator.sliders[1].set(0)
+        self.assertEqual(self.simulator.automation_system.devices[1].temperature, 0)
+        self.simulator.sliders[1].set(20)
+        self.assertEqual(self.simulator.sliders[1].get(), 20)
+ 
+    def test_front_door_camera_motion_button(self):
+        self.simulator.sliders[2].invoke()
+        self.assertEqual(self.simulator.automation_system.motion_detected, True)
+        self.simulator.sliders[2].invoke()
+        self.assertEqual(self.simulator.automation_system.motion_detected, False)
+        
+    def test_automatic_light_adjusting_when_motion_detected(self):
+        self.assertEqual(self.simulator.automation_system.devices[0].brightness, 0)
+        self.simulator.buttons[0].invoke()
+        self.simulator.sliders[2].invoke()
+        self.assertEqual(self.simulator.automation_system.devices[0].brightness, 70)
+        self.assertEqual(self.simulator.sliders[0].get(), 70)
