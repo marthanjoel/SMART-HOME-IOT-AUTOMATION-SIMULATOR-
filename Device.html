@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module Device</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">Device</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cmunkhtenger%5Cdesktop%5Cpython%20lab%5C1st_assignment%5Cdevice.py">c:\users\munkhtenger\desktop\python lab\1st_assignment\device.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="Device.html#Device">Device</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="Device.html#SecurityCamera">SecurityCamera</a>
+</dt><dt class="heading-text"><a href="Device.html#SmartLight">SmartLight</a>
+</dt><dt class="heading-text"><a href="Device.html#Thermostat">Thermostat</a>
+</dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Device">class <strong>Device</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Device">Device</a>(device_id_,&nbsp;status=False)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;representing&nbsp;a&nbsp;device.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Device-__init__"><strong>__init__</strong></a>(self, device_id_, status=False)</dt><dd><span class="code">Initializes&nbsp;a&nbsp;<a href="#Device">Device</a>&nbsp;<a href="builtins.html#object">object</a>.<br>
+&nbsp;<br>
+Args:<br>
+-&nbsp;device_id:&nbsp;The&nbsp;unique&nbsp;identifier&nbsp;of&nbsp;the&nbsp;device.<br>
+-&nbsp;status:&nbsp;The&nbsp;status&nbsp;of&nbsp;the&nbsp;device,&nbsp;True&nbsp;if&nbsp;on,&nbsp;False&nbsp;if&nbsp;off.</span></dd></dl>
+
+<dl><dt><a name="Device-turn_off"><strong>turn_off</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;off&nbsp;the&nbsp;device.</span></dd></dl>
+
+<dl><dt><a name="Device-turn_on"><strong>turn_on</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;on&nbsp;the&nbsp;device.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SecurityCamera">class <strong>SecurityCamera</strong></a>(<a href="Device.html#Device">Device</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SecurityCamera">SecurityCamera</a>(device_id,&nbsp;security_status=False)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;representing&nbsp;a&nbsp;security&nbsp;camera&nbsp;device.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="Device.html#SecurityCamera">SecurityCamera</a></dd>
+<dd><a href="Device.html#Device">Device</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SecurityCamera-__init__"><strong>__init__</strong></a>(self, device_id, security_status=False)</dt><dd><span class="code">Initializes&nbsp;a&nbsp;<a href="#SecurityCamera">SecurityCamera</a>&nbsp;<a href="builtins.html#object">object</a>.</span></dd></dl>
+
+<dl><dt><a name="SecurityCamera-set_security_status"><strong>set_security_status</strong></a>(self, security_status)</dt><dd><span class="code">Sets&nbsp;the&nbsp;security&nbsp;status&nbsp;of&nbsp;the&nbsp;camera.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="Device.html#Device">Device</a>:<br>
+<dl><dt><a name="SecurityCamera-turn_off"><strong>turn_off</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;off&nbsp;the&nbsp;device.</span></dd></dl>
+
+<dl><dt><a name="SecurityCamera-turn_on"><strong>turn_on</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;on&nbsp;the&nbsp;device.</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="Device.html#Device">Device</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SmartLight">class <strong>SmartLight</strong></a>(<a href="Device.html#Device">Device</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SmartLight">SmartLight</a>(device_id,&nbsp;brightness=0)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;representing&nbsp;a&nbsp;thermostat&nbsp;device.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="Device.html#SmartLight">SmartLight</a></dd>
+<dd><a href="Device.html#Device">Device</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SmartLight-__init__"><strong>__init__</strong></a>(self, device_id, brightness=0)</dt><dd><span class="code">Initializes&nbsp;a&nbsp;<a href="#SmartLight">SmartLight</a>&nbsp;<a href="builtins.html#object">object</a>.<br>
+&nbsp;<br>
+Args:<br>
+-&nbsp;device_id:&nbsp;The&nbsp;unique&nbsp;identifier&nbsp;of&nbsp;the&nbsp;device.<br>
+-&nbsp;brightness:&nbsp;The&nbsp;brightness&nbsp;level&nbsp;of&nbsp;the&nbsp;light.</span></dd></dl>
+
+<dl><dt><a name="SmartLight-set_brightness"><strong>set_brightness</strong></a>(self, brightness)</dt><dd><span class="code">Sets&nbsp;the&nbsp;brightness&nbsp;level&nbsp;of&nbsp;the&nbsp;light.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="Device.html#Device">Device</a>:<br>
+<dl><dt><a name="SmartLight-turn_off"><strong>turn_off</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;off&nbsp;the&nbsp;device.</span></dd></dl>
+
+<dl><dt><a name="SmartLight-turn_on"><strong>turn_on</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;on&nbsp;the&nbsp;device.</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="Device.html#Device">Device</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Thermostat">class <strong>Thermostat</strong></a>(<a href="Device.html#Device">Device</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Thermostat">Thermostat</a>(device_id,&nbsp;temperature=0)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;representing&nbsp;a&nbsp;thermostat&nbsp;device.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="Device.html#Thermostat">Thermostat</a></dd>
+<dd><a href="Device.html#Device">Device</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Thermostat-__init__"><strong>__init__</strong></a>(self, device_id, temperature=0)</dt><dd><span class="code">Initializes&nbsp;a&nbsp;<a href="#Thermostat">Thermostat</a>&nbsp;<a href="builtins.html#object">object</a>.<br>
+&nbsp;<br>
+Args:<br>
+-&nbsp;device_id:&nbsp;The&nbsp;unique&nbsp;identifier&nbsp;of&nbsp;the&nbsp;device.<br>
+-&nbsp;temperature:&nbsp;The&nbsp;temperature&nbsp;level&nbsp;of&nbsp;the&nbsp;thermostat.</span></dd></dl>
+
+<dl><dt><a name="Thermostat-set_temperature"><strong>set_temperature</strong></a>(self, temperature)</dt><dd><span class="code">Sets&nbsp;the&nbsp;temperature&nbsp;level&nbsp;of&nbsp;the&nbsp;thermostat.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="Device.html#Device">Device</a>:<br>
+<dl><dt><a name="Thermostat-turn_off"><strong>turn_off</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;off&nbsp;the&nbsp;device.</span></dd></dl>
+
+<dl><dt><a name="Thermostat-turn_on"><strong>turn_on</strong></a>(self)</dt><dd><span class="code">Turns&nbsp;on&nbsp;the&nbsp;device.</span></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="Device.html#Device">Device</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

@@ -23,4 +23,6 @@ Each class and methods have their own description and explanations written above
 
 If the randomization mechanism is turned on, a simulation for brightness of lights are randomly generated every second in the text area named **Brightness events**. During the generation, every widgets except the randomization mechanism button and last text area are disabled.
 
-UML
+**UML class diagram** is in the project folder.
+
+

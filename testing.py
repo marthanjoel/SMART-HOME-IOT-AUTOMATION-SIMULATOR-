@@ -1,11 +1,11 @@
 import unittest
 from tkinter import *
-import Simulator, Device, data_generate
+import Simulator, Device, data_generate, Automation_system
 
 
 class TestSimulator(unittest.TestCase):
     def setUp(self):
-        self.automation_system = Device.AutomationSystem()
+        self.automation_system = Automation_system.AutomationSystem()
         self.generator = data_generate.DataGenerator()
         self.living_room_light= Device.SmartLight('Living Room Light')
         self.living_room_thermostat= Device.Thermostat('Living Room Thermostat')

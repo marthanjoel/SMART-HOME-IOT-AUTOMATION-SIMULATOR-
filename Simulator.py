@@ -1,4 +1,4 @@
-import Device, data_generate
+import Device, Automation_system, data_generate
 
 import tkinter as tk
 from tkinter import ttk, Text
@@ -276,7 +276,7 @@ class Simulator(tk.Tk):
                         pass
 
 if __name__ == '__main__':
-    automation_system= Device.AutomationSystem()
+    automation_system = Automation_system.AutomationSystem()
     generator = data_generate.DataGenerator()
 
     living_room_light= Device.SmartLight('Living Room Light')
