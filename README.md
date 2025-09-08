@@ -1,29 +1,75 @@
 # Smart Home IoT Automation Simulator Project
 
-This project is a Smart Home IoT Automation Simulator built using Tkinter in Python. The simulator allows users to control various smart devices in a home, such as lights, thermostats, and security systems.
+This project is a **Smart Home IoT Automation Simulator** built using **Tkinter in Python**.  
+It demonstrates how IoT devices such as **lights, thermostats, and security systems** can be controlled and automated in a smart home environment.
 
-## Installation
+---
 
-To run the simulator, you will need to have Python 3 installed on your computer. You can download Python 3 from the official website: https://www.python.org/downloads/
+## Setup Steps
 
-Once you have Python 3 installed, you can clone this repository and to run the simulator, use the following command to the terminal `python simulator.py`. 
+1. Clone this repository:
+git clone https://github.com/marthanjoel/SMART-HOME-IOT-AUTOMATION-SIMULATOR-.git
+cd SMART-HOME-IOT-AUTOMATION-SIMULATOR-
 
-## Usage
+-----------------------------------------------------------------------------------
 
-The simulator provides a graphical user interface (GUI) that allows users to interact with various smart devices in a home. Users can turn lights on and off, adjust the temperature of the thermostat, and arm or disarm the security system.
-The automation system is embedded to the project which activate lights to 70% automatically when motion is detected. Also if randomization mechanism is turned on, it will simulate a brightness of lights for automatic configuration and gathers sensor data and storing it in a file for future analysis.
+2. Install required Python modules:
+pip install -r requirements.txt
+-----------------------------------------------------------------------------------
 
-## Testing
 
-Project is tested with **unittest**. Test cases to ensure that the simulator and automation system behave as expected are written. To run the tests, the following command should be entered to the terminal `python -m unittest testing -v`
+3. On Ubuntu, install Tkinter if missing:
+sudo apt install python3-tk -y
 
-## Documentation and instructions
+------------------------------------------------------------------------------------
 
-Each class and methods have their own description and explanations written above them. When you run the project, a window appears as a simulator board for the Smart Home IoT Automation project. To toggle the randomization mechanism, use **Automation ON/OFF** button and its state is displayed right below. Each device's status and types are displayed in the text area. Below that, each device has their status toggle button **TOGGLE ON/OFF** and their respective slider or button to set their properties and label to view their properties. 
+4. Run the simulator:
+python3 Simulator.py
 
-If the randomization mechanism is turned on, a simulation for brightness of lights are randomly generated every second in the text area named **Brightness events**. During the generation, every widgets except the randomization mechanism button and last text area are disabled.
 
-**UML class diagram** is in the project folder as .pdf file and here:
-![image](https://github.com/Munkhtenger19/Smart-Home-IoT-Automation-Simulator/blob/main/class%20diagram.png)
+------------------------------------------------------------------------------------
+
+## Challenges Faced
+
+- Original code used **Windows-only libraries** (`ctypes.windll`) which had to be removed for Ubuntu.  
+- **Tkinter not installed by default** → needed `sudo apt install python3-tk`.  
+- **Case sensitivity issues** (`Simulator.py` vs `simulator.py`).  
+  
+- Pushing to GitHub → had to reconfigure **git remote** for personal repository.  
+
+---
+
+## How the Simulation Works
+
+- The simulator launches a **Tkinter GUI** that represents smart home devices.  
+- Devices can be controlled manually with **buttons and sliders**.  
+- Devices can also communicate via **MQTT messages** when a broker is active.  
+- **Automation rules** are included:  
+- Example: *If motion is detected, lights automatically turn on to 70% brightness.*  
+- A **randomization feature** simulates sensor fluctuations (e.g., brightness events).  
+- Device states and automation events are displayed in the text area of the GUI.  
+
+---
+
+## What Sensors or Devices Are Emulated
+
+- **Smart Light (Living Room Light)** → ON/OFF + brightness control  
+- **Thermostat** → adjustable temperature  
+- **Security Camera** → ON/OFF + motion detection  
+- **Motion Sensor** → works with the camera to trigger automation  
+
+---
+
+## Ideas for Future Improvements
+
+- Add new devices (door locks, plugs, humidity sensors, more lights)  
+- Replace Tkinter with a **web dashboard** for accessibility  
+- Integrate with **cloud IoT platforms** (AWS IoT, HiveMQ, Azure IoT)  
+- Add **data logging & analytics** for long-term usage  
+- Build a **mobile app** for remote control  
+- Improve automation logic (time schedules, conditional rules, multi-device triggers)  
+
+
+
 
 
