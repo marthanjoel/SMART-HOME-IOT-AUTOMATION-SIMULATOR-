@@ -2,13 +2,17 @@ import Device, Automation_system, data_generate
 
 import tkinter as tk
 from tkinter import ttk, Text
-from ctypes import windll
-windll.shcore.SetProcessDpiAwareness(1)
+import platform
+if platform.system() == 'Windows':
+    from ctypes import windll
+    windll.kernel32.SetConsoleTitleW("Smart Home IoT Automation Simulator")
+else:
+    print("Smart Home IoT Automation Simulator") 
 
 import threading
 
 class Simulator(tk.Tk):
-    """ A class representing a smart home simulator GUI. """
+    """ A class representing a smart home iot automation simulator GUI. """
     
     def __init__(self, automation_system, generator):
         """
@@ -26,9 +30,9 @@ class Simulator(tk.Tk):
 
     def create_gui(self):
         """
-        Creates the GUI for the smart home simulator and connect the widgets with its functionalities.
+        Creates the GUI for the smart home iot automation simulator and connect the widgets with its functionalities.
         """
-        self.title('Smart Home Simulator')
+        self.title('Smart Home IoT Automation Simulator')
         self.geometry('800x900')
         self.resizable(0,0)
         self.body = ttk.Frame(self)
